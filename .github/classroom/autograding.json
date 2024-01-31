@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "Group Project Phone Contacts Phase 0 Test",
+      "setup": "",
+      "run": "./gradlew groupproject-phonecontacts-phase0-test",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Group Project Phone Contacts Phase 1 Test",
+      "setup": "",
+      "run": "./gradlew groupproject-phonecontacts-phase1-test",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Group Project Phone Contacts Phase 2 Test",
+      "setup": "",
+      "run": "./gradlew groupproject-phonecontacts-phase2-test",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
