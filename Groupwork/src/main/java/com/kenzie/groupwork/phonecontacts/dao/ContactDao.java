@@ -5,7 +5,9 @@ import com.kenzie.groupwork.phonecontacts.model.Name;
 import com.kenzie.groupwork.phonecontacts.model.SortBy;
 import com.kenzie.groupwork.phonecontacts.model.SortOrder;
 
+import java.util.Comparator;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -23,9 +25,15 @@ public class ContactDao {
 
     @Inject
     public ContactDao() {
-        this.contactsSortedByFirstName = null;
-        this.contactsSortedByLastName = null;
+        //sorting by first name
+        Comparator<Name> byFirstName = Comparator.comparing(Name::getFirstName);
+        this.contactsSortedByFirstName = new TreeMap<>(byFirstName);
+
+        //sorting by last name
+        Comparator<Name> byLastName = Comparator.comparing(Name::getLastName);
+        this.contactsSortedByLastName = new TreeMap<>(byLastName);
     }
+
 
     /**
      * Saves the given contact.
@@ -46,8 +54,17 @@ public class ContactDao {
      * @return map of name to contacts in requested sorted order.
      */
     public SortedMap<Name, Contact> getContacts(SortBy sortBy, SortOrder sortOrder) {
-        // TODO implement
-        return null;
+
+        SortedMap<Name, Contact> selectedMap = sortBy == SortBy.FIRST_NAME ? // decide which map to use
+                contactsSortedByFirstName : contactsSortedByLastName;
+
+
+        if (sortOrder == SortOrder.DESCENDING) {// if DESCENDING return a reverse order map
+            return new TreeMap<>(selectedMap).descendingMap();
+        }
+
+
+        return selectedMap;  // If ASCENDING return the map as is
     }
 
     /**
@@ -69,8 +86,16 @@ public class ContactDao {
      * order.
      */
     public SortedMap<Name, Contact> getContactsStartingAt(Name startKey, SortBy sortBy, SortOrder sortOrder) {
-        // TODO implement
-        return null;
-    }
 
+        SortedMap<Name, Contact> sortedContacts = getContacts(sortBy, sortOrder); // get all contacts in the sort order
+
+        if (sortOrder == SortOrder.DESCENDING) {
+
+            return sortedContacts.tailMap(startKey);// descending order works directly because its already descending
+        } else {
+
+            return sortedContacts.tailMap(startKey);  // For asending order use tailMap
+        }
+
+    }
 }
